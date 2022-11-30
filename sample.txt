@@ -1,1 +1,5 @@
-Some sample text.
+Hello,
+
+Your Secret Santa is $name.
+
+Merry Christmas
