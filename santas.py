@@ -15,8 +15,6 @@ password = os.environ.get('PASSWORD')
 jsonfile = sys.argv[1]
 email_content = sys.argv[2]
 
-test_user = 'jgwil2'
-
 def randomize(santas):
     keys = list(santas.keys())
     random.shuffle(keys)
@@ -31,10 +29,19 @@ if __name__ == '__main__':
             random_santas = randomize(santas)
             cycle_finder = HamiltonianCycleFinder()
             cycle_finder.validPath(n, random_santas)
-            print(cycle_finder.solution)
+            santa_cycle = cycle_finder.solution
+            santa_cycle.pop()
 
-            #for i, santa in enumerate(santas):
-            #    name, email = santa
-            #    k = (i + 1) % l
-            #    print('To:', santas[k][1])
-            #    print(content.substitute(name=name.capitalize()))
+            for i, santa in enumerate(santa_cycle):
+                name = santa
+                email = santas[name]['email']
+                # get next person in cycle
+                k = (i + 1) % n
+                next_person_name = santa_cycle[k]
+                body = content.substitute(
+                    addressee=name.capitalize(),
+                    name=next_person_name.capitalize()
+                )
+                send_email(
+                    f'{user}@gmail.com', email, 'Secret Santa', body, user, password
+                )
