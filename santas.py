@@ -31,13 +31,45 @@ def validPath(
 ) -> List[str]:
     source = list(adjacency_list)[0]
     target = source
-    visited = {}
+    stack = [source]
+    visited = { node: False for node in list(adjacency_list)}
 
-    # dfs
-    # TODO get valid path
+    return backtrack(stack, visited, adjacency_list)
 
 
+def backtrack(
+    stack: List[str],
+    visited: Dict[str, bool],
+    data: Dict[str, List[str]]
+) -> List[str]:
+    if is_solution(stack, visited, data):
+        print(stack)
+    else:
+        candidates = construct_candidates(stack, visited, data)
+        for candidate in candidates:
+            stack.append(candidate)
+            visited[candidate] = True
+            backtrack(stack, visited, data)
+            stack.pop()
+            visited[candidate] = False
 
+def is_solution(
+    stack: List[str],
+    visited: Dict[str, bool],
+    data: Dict[str, List[str]]
+) -> bool:
+    #print(stack, len(stack), len(list(data)))
+    #print(stack[-1], stack[0])
+    #print(stack[-1] == stack[0] and len(stack) - 1 == len(list(data)))
+    return stack[-1] == stack[0] and len(stack) - 1 == len(list(data))
+
+def construct_candidates(
+    stack: List[str],
+    visited: Dict[str, bool],
+    data: Dict[str, List[str]]
+) -> List[str]:
+    current_node = stack[-1]
+    return [node for node in data[current_node] if not visited[node]]
 
 
 with open(jsonfile) as f:
