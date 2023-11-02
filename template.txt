@@ -1,8 +1,0 @@
-Hello $addressee,
-
-You are $name's Secret Santa. The spending limit is $$35 (but you don't have to spend it all).
-
-Merry Christmas,
-John
-
-PS This email was generated automatically, so I don't know anyone else's Santa.
