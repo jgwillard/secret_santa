@@ -9,14 +9,16 @@ import sys
 from hamiltonian_cycle_finder import HamiltonianCycleFinder
 from send import send_email
 
+
 def randomize(santas):
     keys = list(santas.keys())
     random.shuffle(keys)
-    return { key: santas[key] for key in keys }
+    return {key: santas[key] for key in keys}
 
-if __name__ == '__main__':
-    user = os.environ.get('USER')
-    password = os.environ.get('PASSWORD')
+
+if __name__ == "__main__":
+    user = os.environ.get("USER")
+    password = os.environ.get("PASSWORD")
 
     jsonfile = sys.argv[1]
     email_content = sys.argv[2]
@@ -34,14 +36,19 @@ if __name__ == '__main__':
             content = Template(c.read())
             for i, santa in enumerate(santa_cycle):
                 name = santa
-                email = santas[name]['email']
+                email = santas[name]["email"]
                 # get next person in cycle
                 k = (i + 1) % n
                 next_person_name = santa_cycle[k]
                 body = content.substitute(
                     addressee=name.capitalize(),
-                    name=next_person_name.capitalize()
+                    name=next_person_name.capitalize(),
                 )
                 send_email(
-                    f'{user}@gmail.com', email, 'Secret Santa', body, user, password
+                    f"{user}@gmail.com",
+                    email,
+                    "Secret Santa",
+                    body,
+                    user,
+                    password,
                 )
